@@ -1,0 +1,9 @@
+# Mac OS
+.DS_Store
+
+# Python
+__pycache__/
+.env
+
+# Maybe remove these later when stuff works better
+output/
