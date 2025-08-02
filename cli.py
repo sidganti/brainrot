@@ -14,8 +14,8 @@ load_dotenv()
 def main():
     parser = argparse.ArgumentParser(description="AI Video Script Generator CLI")
     parser.add_argument("prompt", help="Your video idea or topic")
-    parser.add_argument("--length", default="60 seconds",
-                       choices=["30 seconds", "60 seconds", "90 seconds", "2 minutes"],
+    parser.add_argument("--length", default="5 seconds",
+                       choices=["5 seconds", "10 seconds", "15 seconds", "30 seconds", "60 seconds"],
                        help="Script length")
     parser.add_argument("--style", default="Educational",
                        choices=["Educational", "Entertainment", "Professional", "Casual", "Dramatic"],

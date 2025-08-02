@@ -47,7 +47,7 @@ Please format the script clearly with timing and visual cues.""")
 
         Args:
             prompt (str): The user's video idea or topic
-            length (str): Desired script length (e.g., "60 seconds")
+            length (str): Desired script length (e.g., "10 seconds")
             style (str): Script style (Educational, Entertainment, etc.)
 
         Returns:

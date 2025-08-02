@@ -39,7 +39,7 @@ def main():
         st.subheader("Script Generation")
         script_length = st.selectbox(
             "Script Length",
-            ["30 seconds", "60 seconds", "90 seconds", "2 minutes"],
+            ["5 seconds", "10 seconds", "15 seconds", "30 seconds", "60 seconds"],
             index=1
         )
 
