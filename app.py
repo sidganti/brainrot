@@ -1,26 +1,26 @@
 import streamlit as st
 import os
 from dotenv import load_dotenv
-from script_generator import VideoScriptGenerator
+from topic_generator import TopicGenerator
 
 # Load environment variables
 load_dotenv()
 
 # Page configuration
 st.set_page_config(
-    page_title="AI Video Script Generator",
-    page_icon="📝",
+    page_title="Brainrot AI Slop Generator",
+    page_icon="",
     layout="wide"
 )
 
 # Initialize components
 @st.cache_resource
-def init_script_generator():
-    return VideoScriptGenerator()
+def init_topic_generator():
+    return TopicGenerator()
 
 def main():
-    st.title("📝 AI Video Script Generator")
-    st.markdown("Generate engaging video scripts from simple prompts using AI!")
+    st.title("🤖 Brainrot AI Slop Generator")
+    st.markdown("Create Brainrot videos using AI Agents and LLMs!")
 
     # Check API key
     if not os.getenv("OPENAI_API_KEY"):
@@ -29,71 +29,51 @@ def main():
         return
 
     # Initialize components
-    script_generator = init_script_generator()
-
-    # Sidebar for configuration
-    with st.sidebar:
-        st.header("⚙️ Configuration")
-
-        # Script generation settings
-        st.subheader("Script Generation")
-        script_length = st.selectbox(
-            "Script Length",
-            ["5 seconds", "10 seconds", "15 seconds", "30 seconds", "60 seconds"],
-            index=1
-        )
-
-        script_style = st.selectbox(
-            "Script Style",
-            ["Educational", "Entertainment", "Professional", "Casual", "Dramatic"],
-            index=0
-        )
+    topic_generator = init_topic_generator()
 
     # Main content area
-    st.header("📝 Script Generation")
+    st.header("📝 Topics Generation")
 
-    # User input for script generation
-    user_prompt = st.text_area(
-        "Enter your video idea or topic:",
-        placeholder="e.g., 'How to make the perfect cup of coffee' or 'The history of space exploration'",
-        height=100
+    # User input for topics generation
+    niche = st.selectbox(
+        "Select a niche",
+        ["POV-History"],
+        index=0,
+        placeholder="Select a niche..."
     )
 
-    if st.button("🎯 Generate Script", type="primary"):
-        if user_prompt.strip():
-            with st.spinner("Generating your script..."):
-                try:
-                    script = script_generator.generate_script(
-                        prompt=user_prompt,
-                        length=script_length,
-                        style=script_style
-                    )
+    number_of_topics = st.number_input(
+        "Enter the number of topics",
+        min_value=1,
+        max_value=10,
+        value=1,
+        step=1
+    )
 
-                    st.session_state['generated_script'] = script
-                    st.success("✅ Script generated successfully!")
+    if st.button("🎯 Generate Topics", type="primary"):
+        with st.spinner("Generating your script..."):
+            try:
+                topics = topic_generator.generate_topics(
+                    niche=niche,
+                    number_of_topics=number_of_topics
+                )
 
-                except Exception as e:
-                    st.error(f"❌ Error generating script: {str(e)}")
-        else:
-            st.warning("Please enter a prompt for script generation.")
+                st.session_state['generated_topics'] = topics
+                st.success("✅ Topics generated successfully!")
+            except Exception as e:
+                st.error(f"❌ Error generating topics: {str(e)}")
 
-    # Display generated script
-    if 'generated_script' in st.session_state:
-        st.subheader("📄 Generated Script")
+    # Display generated topics
+    if 'generated_topics' in st.session_state:
+        st.subheader("📄 Generated Topics")
+        # Try to split the generated_topics string into a list and display as a numbered list
+        topics = st.session_state['generated_topics']
+
         st.text_area(
-            "Your script:",
-            value=st.session_state['generated_script'],
-            height=400,
+            "Your topics:",
+            value=topics,
+            height=100,
             disabled=True
-        )
-
-        # Download script option
-        script_bytes = st.session_state['generated_script'].encode()
-        st.download_button(
-            label="📥 Download Script",
-            data=script_bytes,
-            file_name="video_script.txt",
-            mime="text/plain"
         )
 
     # Footer
